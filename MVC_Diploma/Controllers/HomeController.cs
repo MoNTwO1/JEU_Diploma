@@ -26,5 +26,11 @@ namespace MVC_Diploma.Controllers
 
             return View();
         }
+        public ActionResult RolesAboutView()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View("RolesAboutView");
+        }
     }
 }
