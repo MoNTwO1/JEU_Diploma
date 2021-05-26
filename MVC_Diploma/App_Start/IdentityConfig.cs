@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,8 +20,36 @@ namespace MVC_Diploma
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Подключите здесь службу электронной почты для отправки сообщения электронной почты.
-            return Task.FromResult(0);
+            // настройка логина, пароля отправителя
+            /*var from = "jeu-diplom@yandex.ru";
+            var pass = "zeoghyudczoluquj";*/
+
+            // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
+
+            /*client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(from, pass);
+            client.EnableSsl = true;*/
+
+            // создаем письмо: message.Destination - адрес получателя
+            /*var mail = new MailMessage(from, message.Destination);
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+            mail.IsBodyHtml = true;*/
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("jeu-diplom@yandex.ru"); // Адрес отправителя
+            mail.To.Add(new MailAddress(message.Destination)); // Адрес получателя
+            mail.Subject = "Подтверждающее письмо";
+            mail.Body = "Ты успешно прошел регистрацию,гы";
+
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.yandex.ru";
+            client.Port = 587; // Обратите внимание что порт 587
+            client.EnableSsl = true;
+            client.Credentials = new NetworkCredential("jeu-diplom@yandex.ru", "zeoghyudczoluquj"); // Ваши логин и пароль
+            client.Send(mail);
+
+            return client.SendMailAsync(mail);
         }
     }
 

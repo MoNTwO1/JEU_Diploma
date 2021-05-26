@@ -126,6 +126,17 @@ namespace MVC_Diploma
 
             }
 
+            // creating Creating User role     
+            if (!roleManager.RoleExists("User"))
+            {
+                var role = new IdentityRole
+                {
+                    Name = "User"
+                };
+                roleManager.Create(role);
+
+            }
+
 
         }
     }
