@@ -258,6 +258,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Home\RolesAboutView.cshtml" />
+    <Content Include="Views\Account\DisplayEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MVC_Diploma.Models
@@ -83,6 +84,13 @@ namespace MVC_Diploma.Models
         [Display(Name = "Подтверждение пароля")]
         [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
         public string ConfirmPassword { get; set; }
+        public Guid OfficeId { get; set; }
+        public bool UserStatus { get; set; }
+        public Guid CounterId { get; set; }
+        public Guid ReputationId { get; set; }
+        public decimal AccountMoney { get; set; }
+        public DateTime DateIn { get; set; }
+        public DateTime DateOut { get; set; }
     }
 
     public class ResetPasswordViewModel

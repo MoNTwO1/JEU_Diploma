@@ -12,5 +12,10 @@ namespace MVC_Diploma.Helpers
             return false;
         }
 
+        public static void SetCommonUserRole()
+        {
+
+        }
+
     }
 }
