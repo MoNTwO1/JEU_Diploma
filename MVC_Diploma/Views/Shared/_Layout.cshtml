@@ -24,6 +24,20 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Информация", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Страница Админа", "AdminPage", "Home")</li>
+                    }
+                    else if (User.IsInRole("Master"))
+                    {
+                        <li>@Html.ActionLink("Страница мастера", "MasterPage", "Home")</li>
+                    }
+                    else if (User.IsInRole("User"))
+                    {
+                        <li>@Html.ActionLink("Страница жителя", "UserPage", "Home")</li>
+                    }
+
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

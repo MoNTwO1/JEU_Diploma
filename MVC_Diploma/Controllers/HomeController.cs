@@ -32,5 +32,29 @@ namespace MVC_Diploma.Controllers
 
             return View("RolesAboutView");
         }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult AdminPage()
+        {
+            ViewBag.Message = "Admin page";
+
+            return View("Admin");
+        }
+
+        [Authorize(Roles = "Master, Admin")]
+        public ActionResult MasterPage()
+        {
+            ViewBag.Message = "Master page";
+
+            return View("Master");
+        }
+
+        [Authorize(Roles = "User, Admin")]
+        public ActionResult UserPage()
+        {
+            ViewBag.Message = "User page";
+
+            return View("User");
+        }
     }
 }
