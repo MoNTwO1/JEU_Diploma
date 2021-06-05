@@ -1,11 +1,33 @@
-﻿
+﻿@model IEnumerable<MVC_Diploma.Models.UserInfo>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Список всех пользователей";
+    
 }
+<head>
+    <meta charset="UTF-8">
+    <title>Roles information</title>
 
-<h2>Index</h2>
-@foreach (var user in ViewBag.Users)
-{
-    <li>@user</li>
-}
+    <link rel="stylesheet" href="~/Content/StyleForTables.css">
 
+</head>
+
+<table>
+    <tr><th><h2>Employee</h2></th><th><h2>User role</h2></th></tr>
+    @foreach (var user in Model)
+    {
+        var roles = "";
+        foreach (var item in user.Roles)
+        {
+            roles += item + " ";
+        }
+<tr>
+    <td>@user.Email</td>
+    <td>
+        @roles
+    </td>
+    <td>
+        @Html.ActionLink("Редактировать", "EditUserView", "Admin", new { userId = user.UserId, userName = user.Username}, null)
+    </td>
+</tr>
+    }
+</table>

@@ -4,7 +4,6 @@
 }
 
 <h2>@ViewBag.Title.</h2>
-<h3>Оформить заявку</h3>
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
     <h4>Изменение параметров учетной записи</h4>
@@ -56,12 +55,12 @@
             }
         </dd>
         *@
-        <dt>Двухфакторная проверка подлинности:</dt>
+        @*<dt>Двухфакторная проверка подлинности:</dt>
         <dd>
             <p>
                 Поставщики двухфакторной проверки подлинности не настроены. В <a href="https://go.microsoft.com/fwlink/?LinkId=403804">этой статье</a>
                 можно узнать, как настроить двухфакторную проверку подлинности для этого приложения ASP.NET.
-            </p>
+            </p>*@
             @*@if (Model.TwoFactor)
             {
                 using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

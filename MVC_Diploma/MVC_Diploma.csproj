@@ -234,10 +234,21 @@
     <Compile Include="Migrations\202105252241291_DataMigration.Designer.cs">
       <DependentUpon>202105252241291_DataMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106050937019_fixrequests.cs" />
+    <Compile Include="Migrations\202106050937019_fixrequests.Designer.cs">
+      <DependentUpon>202106050937019_fixrequests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106051455284_req.cs" />
+    <Compile Include="Migrations\202106051455284_req.Designer.cs">
+      <DependentUpon>202106051455284_req.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminResouresViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\RequestsViewModel.cs" />
+    <Compile Include="Models\UsersViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -246,6 +257,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\StyleForTables.css" />
     <Content Include="Content\StyleSheetForRoles.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -308,6 +320,13 @@
     <Content Include="Views\Home\User.cshtml" />
     <Content Include="Views\Request\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\EditUserView.cshtml" />
+    <Content Include="Views\Users\EditUser.cshtml" />
+    <Content Include="Views\Home\Manager.cshtml" />
+    <Content Include="Views\Request\PickMaster.cshtml" />
+    <Content Include="Views\Request\Admit.cshtml" />
+    <Content Include="Views\Request\Greets.cshtml" />
+    <Content Include="Views\Admin\ServiceCreation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -332,6 +351,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202105252241291_DataMigration.resx">
       <DependentUpon>202105252241291_DataMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106050937019_fixrequests.resx">
+      <DependentUpon>202106050937019_fixrequests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106051455284_req.resx">
+      <DependentUpon>202106051455284_req.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

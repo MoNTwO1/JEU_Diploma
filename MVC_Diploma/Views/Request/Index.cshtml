@@ -1,9 +1,26 @@
-﻿
+﻿@model MVC_Diploma.Models.RequestsViewModel
 @{
     ViewBag.Title = "Request";
+
 }
-
 <h2>Список услуг</h2>
-
-
+    <table>
+        <tr><th><h3>Услуга</h3></th><th><h2>Тип услуги</h2></th><th><h2>Цена</h2></th></tr>
+        @foreach (var service in Model.Services)
+        {
+            var type = Model.serviceTypes.Where(u => u.ServiceTypeId.ToString() == service.ServiceTypeId.ToString()).ToList();
+            <tr>
+                <td>@service.Description</td>
+                <td>
+                    @type.FirstOrDefault().Type;
+                </td>
+                <td>
+                    @service.MoneyForService
+                </td>
+                <td>
+                    @Html.ActionLink("Выбрать", "Pick", "Request", new {serviceId = service.ServiceId }, null);
+                </td>
+            </tr>
+        }
+    </table>
 

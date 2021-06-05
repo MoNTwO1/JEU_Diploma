@@ -5,7 +5,7 @@
 
 @if (ViewBag.displayMenu == "Yes")
 {
-    <h1>Welcome Admin. Now you can create user Role.</h1>   
+    <h1>Welcome Admin. Now you can create user Role.</h1>
     <li>@Html.ActionLink("Manage Role", "Index", "Role")</li>
 
 }
@@ -13,3 +13,32 @@ else
 {
     <h2>  Welcome <strong>@ViewBag.Name</strong> :) .We will add user module soon </h2>
 }
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ваши заявки</title>
+
+    <link rel="stylesheet" href="~/Content/StyleForTables.css">
+
+</head>
+
+<table>
+    <tr><th><h2>Employee</h2></th><th><h2>User role</h2></th></tr>
+    @foreach (var user in Model)
+    {
+        var roles = "";
+        foreach (var item in user.Roles)
+        {
+            roles += item + " ";
+        }
+        <tr>
+            <td>@user.Email</td>
+            <td>
+                @roles
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "EditUserView", "Admin", new { userId = user.UserId, userName = user.Username }, null)
+            </td>
+        </tr>
+    }
+</table>

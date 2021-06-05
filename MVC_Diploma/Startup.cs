@@ -36,20 +36,20 @@ namespace MVC_Diploma
 
                 //Here we create a Admin super user who will maintain the website                   
 
-                var user = new ApplicationUser
+                var user1 = new ApplicationUser
                 {
                     UserName = "shanu",
                     Email = "syedshanumcain@gmail.com"
                 };
 
-                string userPWD = "A@Z200711";
+                string userPWD1 = "A@Z200711";
 
-                var chkUser = UserManager.Create(user, userPWD);
+                var chkUser1 = UserManager.Create(user1, userPWD1);
 
                 //Add default User to Role Admin    
-                if (chkUser.Succeeded)
+                if (chkUser1.Succeeded)
                 {
-                    var result1 = UserManager.AddToRole(user.Id, "Admin");
+                    var result1 = UserManager.AddToRole(user1.Id, "Admin");
 
                 }
             }
@@ -62,6 +62,23 @@ namespace MVC_Diploma
                     Name = "Manager"
                 };
                 roleManager.Create(role);
+
+                var manager = new ApplicationUser
+                {
+                    UserName = "manager",
+                    Email = "manager@gmail.com"
+                };
+
+                string userP = "manager";
+
+                var chkUser2 = UserManager.Create(manager, userP);
+
+                //Add default User to Role Admin    
+                if (chkUser2.Succeeded)
+                {
+                    var result1 = UserManager.AddToRole(manager.Id, "Manager");
+
+                }
 
             }
 
@@ -134,6 +151,23 @@ namespace MVC_Diploma
                     Name = "User"
                 };
                 roleManager.Create(role);
+                
+
+            }
+            var user3 = new ApplicationUser
+            {
+                UserName = "user",
+                Email = "user@gmail.com"
+            };
+
+            string userPWD = "user";
+
+            var chkUser = UserManager.Create(user3, userPWD);
+
+            //Add default User to Role Admin    
+            if (chkUser.Succeeded)
+            {
+                var result1 = UserManager.AddToRole(user3.Id, "User");
 
             }
             // creating Creating Master role     
@@ -145,8 +179,8 @@ namespace MVC_Diploma
                 };
                 roleManager.Create(role);
 
+                
             }
-
 
         }
     }

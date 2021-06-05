@@ -1,0 +1,28 @@
+﻿@model MVC_Diploma.Models.AdmitInfoViewModel
+@{
+    ViewBag.Title = "Admit";
+}
+
+<h2>Подтвердите заявку</h2>
+
+<table>
+    <tr><th><h3>Мастер</h3></th><th><h2>Описание</h2></th><th><h2>Вид услуги</h2></th><th><h2>Стоимость</h2></th></tr>
+    <tr>
+        <td>
+            @Model.MasterName
+        </td>
+        <td>
+            @Model.Description
+        </td>
+        <td>
+            @Model.TypeOfService
+        </td>
+        <td>
+            @Model.Price
+        </td>
+    </tr>
+</table>
+
+<div>
+    <a class="btn btn-default" href="@Url.Action("Greets", "Request")">Подтвердить</a>
+</div>

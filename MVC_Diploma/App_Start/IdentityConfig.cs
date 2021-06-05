@@ -21,20 +21,20 @@ namespace MVC_Diploma
         public Task SendAsync(IdentityMessage message)
         {
 
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("jeu-diplom@yandex.ru"); // Адрес отправителя
-            mail.To.Add(new MailAddress(message.Destination)); // Адрес получателя
-            mail.Subject = "Подтверждающее письмо";
-            mail.Body = "Ты успешно прошел регистрацию,гы";
+              MailMessage mail = new MailMessage();
+              mail.From = new MailAddress("jeu-diplom@yandex.ru"); // Адрес отправителя
+              mail.To.Add(new MailAddress(message.Destination)); // Адрес получателя
+              mail.Subject = "Подтверждающее письмо";
+              mail.Body = "Ты успешно прошел регистрацию";
 
-            SmtpClient client = new SmtpClient();
-            client.Host = "smtp.yandex.ru";
-            client.Port = 587; // Обратите внимание что порт 587
-            client.EnableSsl = true;
-            client.Credentials = new NetworkCredential("jeu-diplom@yandex.ru", "zeoghyudczoluquj"); // Ваши логин и пароль
-            client.Send(mail);
+              SmtpClient client = new SmtpClient();
+              client.Host = "smtp.yandex.ru";
+              client.Port = 587; // Обратите внимание что порт 587
+              client.EnableSsl = true;
+              client.Credentials = new NetworkCredential("jeu-diplom@yandex.ru", "zeoghyudczoluquj"); // Ваши логин и пароль
+              client.Send(mail);
 
-            return client.SendMailAsync(mail);
+              return client.SendMailAsync(mail);
         }
     }
 

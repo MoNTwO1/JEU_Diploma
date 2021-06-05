@@ -1,0 +1,24 @@
+﻿@*@model MVC_Diploma.Models.RequestsMastersInfoViewModel*@
+@*@model List<RequestsMastersInfoViewModel>*@
+@{
+    ViewBag.Title = "PickMaster";
+}
+
+<h2>Выберите мастера</h2>
+<table>
+    <tr><th><h3>Мастер</h3></th><th><h2>Рейтинг</h2></th></tr>
+    @foreach (var master in this.ViewData.Model)
+    {
+        <tr>
+            <td>
+                @master.masters.UserName
+            </td>
+            <td>
+                @master.value
+            </td>
+            <td>
+                @Html.ActionLink("Выбрать", "Admit", "Request", new { Master = master, requestId = master.requestId }, null);
+            </td>
+        </tr>
+    }
+</table>

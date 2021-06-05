@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using MVC_Diploma.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace MVC_Diploma.Controllers
 {
@@ -53,8 +57,16 @@ namespace MVC_Diploma.Controllers
         public ActionResult UserPage()
         {
             ViewBag.Message = "User page";
+            var context = new ApplicationDbContext();
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+            var allrequests = context.Requests.ToList();
+            var id = User.Identity.GetUserId().ToString();
+            /*var userId = Membership.GetUser().ProviderUserKey.ToString();*/
+            var userRequests = allrequests.Where(r => r.UserId.ToString() == id);
 
-            return View("User");
+            return View("User", userRequests);
         }
+
     }
 }

@@ -170,7 +170,7 @@ namespace MVC_Diploma.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, DateIn = DateTime.Now, DateOut = DateTime.Now, UserStatus = true, };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, DateIn = DateTime.Now, DateOut = DateTime.Now, UserStatus = true };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

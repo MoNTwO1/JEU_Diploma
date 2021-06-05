@@ -1,9 +1,36 @@
-﻿
+﻿@model IEnumerable<MVC_Diploma.Models.Requests>
 @{
     ViewBag.Title = "User";
 }
 
+<head>
+    <meta charset="UTF-8">
+    <title>Roles information</title>
+
+    <link rel="stylesheet" href="~/Content/StyleForTables.css">
+
+</head>
 <h2>User</h2>
 
 @Html.ActionLink("Создать заявку", "Index", "Request")
 
+
+
+<table>
+    <tr><th><h3>Номер заявки</h3></th><th><h2>Описание</h2></th><th><h2>Статус</h2></th></tr>
+    @foreach (var request in Model)
+    {
+        <tr>
+            <td>@request.RequestId</td>
+            <td>
+                @request.Description
+            </td>
+            <td>
+                @request.Status
+            </td>
+            <td>
+                @Html.ActionLink("Подробнее", "Details", "User", new { requestId = request.RequestId, userId = request.UserId }, null)
+            </td>
+        </tr>
+    }
+</table>
