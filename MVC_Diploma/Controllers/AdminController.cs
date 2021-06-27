@@ -14,7 +14,7 @@ namespace MVC_Diploma.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
+        /*private readonly RoleManager<IdentityRole> _roleManager;*/
 
         // GET: Admin
         public ActionResult Index(ICollection<UserInfo> userInfos)
@@ -45,6 +45,35 @@ namespace MVC_Diploma.Controllers
             return View(new UserEditModel { user = userManager.FindByNameAsync(userName).Result, 
                 Roles = userManager.GetRoles(userId),
                 allRoles = roles });
+        }
+
+        public ActionResult SaveUser(UserEditModel model)
+        {
+            var context = new ApplicationDbContext();
+            var user = context.Users.Single(u => u.Id == model.user.Id);
+            user.UserName = model.user.UserName;
+            user.Email = model.user.Email;
+            user.PhoneNumber = model.user.PhoneNumber;
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+            var roles = userManager.GetRoles(model.user.Id);
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            userManager.AddToRoles(user.Id, "Master");
+            context.SaveChanges();
+            var rolesList = roleManager.Roles.OrderBy(u => u.Name).ToList();
+            var userStore = new UserStore<ApplicationUser>(context);
+            var users = userManager.Users.ToList();
+            var userWithRoles = userManager.Users.Include(u => u.Roles).ToList()
+                .Select(u => new UserInfo
+                {
+                    Email = u.Email,
+                    Roles = userManager.GetRoles(u.Id),
+                    UserId = u.Id.ToString(),
+                    Username = u.UserName
+                })
+                .ToList();
+            var userInfos = userWithRoles;
+            return View("Index", userInfos);
         }
 
         public ActionResult ServiceCreation()
@@ -97,6 +126,25 @@ namespace MVC_Diploma.Controllers
                 ModelState.Clear();
             }
             return View(resourse);
+        }
+
+        public ActionResult AddUser()
+        {
+            ViewBag.Message = "";
+            return View("AddUser");
+        }
+
+        public ActionResult Register(RegisterViewModel model)
+        {
+            var context = new ApplicationDbContext();
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, UserStatus = true, DateIn = DateTime.Now, DateOut = DateTime.Now };
+            var result = userManager.Create(user, model.Password);
+            userManager.AddToRoleAsync(user.Id, "User");
+            context.SaveChanges();
+            ViewBag.Message = "Пользователь добавлен";
+            return View("AddUser");
         }
     }
 }

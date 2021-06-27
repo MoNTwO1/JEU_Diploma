@@ -22,13 +22,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Информация", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
+                    @*<li>@Html.ActionLink("Информация", "About", "Home")</li>
+                    <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>*@
                     @if (User.IsInRole("Admin"))
                     {
                         <li>@Html.ActionLink("Страница Админа", "AdminPage", "Home")</li>
+                        <li>@Html.ActionLink("Страница мастера", "MasterPage", "Home")</li>
+                        <li>@Html.ActionLink("Страница диспетчера", "Index", "Manager")</li>
+                        <li>@Html.ActionLink("Страница жителя", "UserPage", "Home")</li>
                     }
-                    else if (User.IsInRole("Master"))
+                    else if (User.IsInRole("Admin") || User.IsInRole("Master"))
                     {
                         <li>@Html.ActionLink("Страница мастера", "MasterPage", "Home")</li>
                     }
@@ -36,7 +39,7 @@
                     {
                         <li>@Html.ActionLink("Страница жителя", "UserPage", "Home")</li>
                     }
-                    else if (User.IsInRole("Manager"))
+                    else if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                     {
                         <li>@Html.ActionLink("Страница диспетчера", "ManagerPage", "Home")</li>
                     }

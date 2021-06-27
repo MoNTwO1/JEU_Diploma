@@ -36,7 +36,7 @@ namespace MVC_Diploma
 
                 //Here we create a Admin super user who will maintain the website                   
 
-                var user1 = new ApplicationUser
+                /*var user1 = new ApplicationUser
                 {
                     UserName = "shanu",
                     Email = "syedshanumcain@gmail.com"
@@ -51,7 +51,7 @@ namespace MVC_Diploma
                 {
                     var result1 = UserManager.AddToRole(user1.Id, "Admin");
 
-                }
+                }*/
             }
 
             // creating Creating Manager role     
@@ -62,23 +62,6 @@ namespace MVC_Diploma
                     Name = "Manager"
                 };
                 roleManager.Create(role);
-
-                var manager = new ApplicationUser
-                {
-                    UserName = "manager",
-                    Email = "manager@gmail.com"
-                };
-
-                string userP = "manager";
-
-                var chkUser2 = UserManager.Create(manager, userP);
-
-                //Add default User to Role Admin    
-                if (chkUser2.Succeeded)
-                {
-                    var result1 = UserManager.AddToRole(manager.Id, "Manager");
-
-                }
 
             }
 
@@ -154,22 +137,7 @@ namespace MVC_Diploma
                 
 
             }
-            var user3 = new ApplicationUser
-            {
-                UserName = "user",
-                Email = "user@gmail.com"
-            };
-
-            string userPWD = "user";
-
-            var chkUser = UserManager.Create(user3, userPWD);
-
-            //Add default User to Role Admin    
-            if (chkUser.Succeeded)
-            {
-                var result1 = UserManager.AddToRole(user3.Id, "User");
-
-            }
+            
             // creating Creating Master role     
             if (!roleManager.RoleExists("Master"))
             {
@@ -177,9 +145,7 @@ namespace MVC_Diploma
                 {
                     Name = "Master"
                 };
-                roleManager.Create(role);
-
-                
+                roleManager.Create(role);               
             }
 
         }

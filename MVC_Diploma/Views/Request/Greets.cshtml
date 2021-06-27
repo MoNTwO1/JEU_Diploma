@@ -2,8 +2,13 @@
 @{
     ViewBag.Title = "Greets";
 }
+<head>
+    <meta charset="UTF-8">
 
+    <link rel="stylesheet" href="~/Content/StyleForTables.css">
+
+</head>
 <p>Ваша заявка успешно зарегистрирована</p>
 <div>
-    <a class="btn btn-default" href="@Url.Action("User", "Home")">Подтвердить</a>
+    <a class="btn btn-default" href="@Url.Action("UserPage", "Home")">Подтвердить</a>
 </div>

@@ -5,25 +5,20 @@
 <div class="jumbotron">
     <h1>JEU</h1>
     <p class="lead">Этот проект разработан для ТСЖ и УО компаний</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Ссылка куда то &raquo;</a></p>
+    <p><a class="btn btn-primary btn-lg" href="@Url.Action("About", "Home")">Подробнее &raquo;</a></p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Здесь будет подробнее про роли</h2>
+        <h2>Роли</h2>
         <p>
             В сфере ЖКХ существует некотрое количесво ролей, которые ТСЖ или УО могут пользоваться. Подробнее про них можете прочитать здесь.
         </p>
         <a class="btn btn-default" href="@Url.Action("RolesAboutView", "Home")">Про роли</a>
     </div>
     <div class="col-md-4">
-        <h2>И здесь тоже что то будет</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>И здесь...</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h2>Контакты</h2>
+        <p>Контактная информация</p>
+        <p><a class="btn btn-default" href="@Url.Action("Contact", "Home")">Посмотреть &raquo;</a></p>
     </div>
 </div>

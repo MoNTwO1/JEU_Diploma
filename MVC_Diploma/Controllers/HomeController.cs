@@ -37,7 +37,7 @@ namespace MVC_Diploma.Controllers
             return View("RolesAboutView");
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User, Master, Manager")]
         public ActionResult AdminPage()
         {
             ViewBag.Message = "Admin page";
@@ -45,15 +45,28 @@ namespace MVC_Diploma.Controllers
             return View("Admin");
         }
 
-        [Authorize(Roles = "Master, Admin")]
+        [Authorize(Roles = "Admin, User, Master, Manager")]
         public ActionResult MasterPage()
+        {
+            var context = new ApplicationDbContext();
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+            var id = User.Identity.GetUserId().ToString();
+            var amountRequests = context.Requests.Where(s => s.Status == "Заявка подтверждена диспетчером").ToList();
+            var onlyMasterRequests = amountRequests.Where(i => i.ManagerId == id).ToList();
+            ManagerViewModel managerViewModel = new ManagerViewModel() { requests = onlyMasterRequests };
+            return View("Master", managerViewModel);
+        }
+
+        [Authorize(Roles = "Admin, User, Master, Manager")]
+        public ActionResult ManagerPage()
         {
             ViewBag.Message = "Master page";
 
             return View("Master");
         }
 
-        [Authorize(Roles = "User, Admin")]
+        [Authorize(Roles = "Admin, User, Master, Manager")]
         public ActionResult UserPage()
         {
             ViewBag.Message = "User page";
@@ -62,10 +75,23 @@ namespace MVC_Diploma.Controllers
             var userManager = new UserManager<ApplicationUser>(store);
             var allrequests = context.Requests.ToList();
             var id = User.Identity.GetUserId().ToString();
-            /*var userId = Membership.GetUser().ProviderUserKey.ToString();*/
             var userRequests = allrequests.Where(r => r.UserId.ToString() == id);
 
             return View("User", userRequests);
+        }
+        public ActionResult End(string requestId)
+        {
+            var context = new ApplicationDbContext();
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+            var currentRequest = context.Requests.Where(i => i.RequestId == requestId).FirstOrDefault();
+            currentRequest.Status = "Заявка выполнена";
+            context.SaveChanges();
+            var id = User.Identity.GetUserId().ToString();
+            var amountRequests = context.Requests.Where(s => s.Status == "Заявка подтверждена диспетчером").ToList();
+            var onlyMasterRequests = amountRequests.Where(i => i.ManagerId == id).ToList();
+            ManagerViewModel managerViewModel = new ManagerViewModel() { requests = onlyMasterRequests };
+            return View("Master", managerViewModel);
         }
 
     }

@@ -21,6 +21,7 @@ namespace MVC_Diploma.Controllers
             var allServiceTypes = context.ServiceType.ToList();
             RequestsViewModel requestsViewModel = new RequestsViewModel() { Services = allServices,
                 serviceTypes = allServiceTypes};
+
             return View(requestsViewModel);
         }
 
@@ -36,6 +37,7 @@ namespace MVC_Diploma.Controllers
             var userId = User.Identity.GetUserId();
             var requestId = Guid.NewGuid().ToString();
             var service = context.Service.Single(up => up.ServiceId == serviceId);
+
             Requests Request = new Requests()
             {
                 RequestId = requestId,
@@ -49,9 +51,10 @@ namespace MVC_Diploma.Controllers
             
             context.SaveChanges();
             //мастеры
+            /*var roleId = context.Users.Where(x => x.Roles.Select(n => n.RoleId))*/
             var users = context.Users.Where(x => x.Roles
             .Select(y => y.RoleId)
-            .Contains("97ee5280 - 6dc6 - 4f71 - a150 - 4cc3d546de03"))
+            .Contains("97ee5280-6dc6-4f71-a150-4cc3d546de03"))
                 .ToList();
             List<RequestsMastersInfoViewModel> sorted = new List<RequestsMastersInfoViewModel>();
             foreach (var user in users)
@@ -70,13 +73,15 @@ namespace MVC_Diploma.Controllers
             return View("PickMaster", sorted);
         }
 
-        public ActionResult Admit(ApplicationUser master, string requestId)
+        public ActionResult Admit(string masterId, string requestId)
         {
             var context = new ApplicationDbContext();
             var request = context.Requests.Single(up => up.RequestId == requestId);
-            request.ManagerId = master.Id;
+            request.ManagerId = masterId;
+            request.Status = "Заявка ждет подтверждения";
             context.SaveChanges();
 
+            var master = context.Users.Single(p => p.Id == masterId);
             var service = context.Service.Single(s => s.ServiceId == request.ServiceId);
             var serviceType = context.ServiceType.Single(t => t.ServiceTypeId == service.ServiceTypeId);
 

@@ -3,7 +3,12 @@
 @{
     ViewBag.Title = "PickMaster";
 }
+<head>
+    <meta charset="UTF-8">
 
+    <link rel="stylesheet" href="~/Content/StyleForTables.css">
+
+</head>
 <h2>Выберите мастера</h2>
 <table>
     <tr><th><h3>Мастер</h3></th><th><h2>Рейтинг</h2></th></tr>
@@ -17,7 +22,7 @@
                 @master.value
             </td>
             <td>
-                @Html.ActionLink("Выбрать", "Admit", "Request", new { Master = master, requestId = master.requestId }, null);
+                @Html.ActionLink("Выбрать", "Admit", "Request", new { masterId = master.masters.Id, requestId = master.requestId }, null);
             </td>
         </tr>
     }

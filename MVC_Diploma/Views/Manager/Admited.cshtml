@@ -1,0 +1,32 @@
+﻿@model MVC_Diploma.Models.ManagerViewModel
+@{
+    ViewBag.Title = "Admited";
+}
+
+<h2>Admited</h2>
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="~/Content/StyleForTables.css">
+
+</head>
+<table>
+    <tr><th><h3>Номер заявки</h3></th><th><h2>Описание</h2></th><th><h2>Статус</h2></th></tr>
+    @foreach (var req in Model.requests)
+    {
+        <tr>
+            <td>
+                @req.RequestId
+            </td>
+            <td>
+                @req.Description
+            </td>
+            <td>
+                @req.Status
+            </td>
+            <td>
+                @Html.ActionLink("Подробнее", "Details", "Manager", new { requestId = req.RequestId }, null);
+            </td>
+        </tr>
+    }
+</table>

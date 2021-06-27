@@ -54,6 +54,9 @@ namespace MVC_Diploma.Models
         public string Status { get; set; }
         public string Description { get; set; }
         public bool RequestStatus { get; set; }
+        public string MasterAdmit { get; set; }
+        public string ManagerAdmit { get; set; }
+        public bool UserMark { get; set; }
 
     }
 
@@ -85,6 +88,7 @@ namespace MVC_Diploma.Models
         [Key]
         public string ReputationId { get; set; }
         public decimal Value { get; set; }
+        public int NumberOfVotes { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

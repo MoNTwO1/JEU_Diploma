@@ -5,7 +5,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Roles information</title>
 
     <link rel="stylesheet" href="~/Content/StyleForTables.css">
 
@@ -20,17 +19,23 @@
     <tr><th><h3>Номер заявки</h3></th><th><h2>Описание</h2></th><th><h2>Статус</h2></th></tr>
     @foreach (var request in Model)
     {
-        <tr>
-            <td>@request.RequestId</td>
-            <td>
-                @request.Description
-            </td>
-            <td>
-                @request.Status
-            </td>
-            <td>
-                @Html.ActionLink("Подробнее", "Details", "User", new { requestId = request.RequestId, userId = request.UserId }, null)
-            </td>
-        </tr>
+<tr>
+    <td>@request.RequestId</td>
+    <td>
+        @request.Description
+    </td>
+    <td>
+        @request.Status
+    </td>
+    <td>
+        @Html.ActionLink("Подробнее", "Details", "User", new { requestId = request.RequestId, userId = request.UserId }, null)
+    </td>
+    @if (request.Status == "Заявка выполнена" && request.UserMark == false)
+    {
+        <td>
+            @Html.ActionLink("Оценить мастера", "Mark", "Users", new {requestId = request.RequestId}, null)
+        </td>
+    }
+</tr>
     }
 </table>

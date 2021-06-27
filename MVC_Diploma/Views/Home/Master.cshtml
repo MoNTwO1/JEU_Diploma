@@ -1,7 +1,32 @@
-﻿
+﻿@model MVC_Diploma.Models.ManagerViewModel
 @{
     ViewBag.Title = "Master";
 }
 
 <h2>Master</h2>
 
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="~/Content/StyleForTables.css">
+
+</head>
+
+<table>
+    <tr><th><h2>Номер заявки</h2></th><th><h2>Статус</h2></th><th><h2>Описание</h2></th></tr>
+    @foreach (var request in Model.requests)
+    {
+<tr>
+    <td>@request.RequestId</td>
+    <td>
+        @request.Status
+    </td>
+    <td>
+        @request.Description
+    </td>
+    <td>
+        @Html.ActionLink("Завершить", "End", "Home", new { requestId= request.RequestId }, null)
+    </td>
+</tr>
+    }
+</table>
