@@ -1,0 +1,44 @@
+﻿@model MVC_Diploma.Models.RequestDetailView
+@{
+    ViewBag.Title = "Request";
+}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о заявке</title>
+
+    <link rel="stylesheet" href="~/Content/StyleSheetForRoles.css">
+
+</head>
+<body>
+
+    <div class="card">
+        <h1>Заявка</h1>
+
+        <details class="info" open>
+            <summary>Номер заявки</summary>
+            <p>@Model.Request.RequestId</p>
+        </details>
+        <details class="info" open>
+            <summary>Тип услуги</summary>
+            <p>@Model.ServiceType.Type</p>
+        </details>
+        <details class="info" open>
+            <summary>Описание</summary>
+            <p>@Model.Service.Description</p>
+        </details>
+        <details class="info" open>
+            <summary>Ваш мастер</summary>
+            <p>@Model.Master.UserName</p>
+        </details>
+        <details class="info" open>
+            <summary>Статус заявки</summary>
+            <p>@Model.Request.Status</p>
+        </details>
+
+    </div>
+
+</body>
+
+</html>

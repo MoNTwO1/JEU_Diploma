@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -91,12 +93,92 @@ namespace MVC_Diploma.Controllers
             admitInfo.ServiceDescription = service.MoneyForService.ToString();
             admitInfo.TypeOfService = serviceType.Type;
             admitInfo.Price = service.MoneyForService.ToString();
+            admitInfo.RequestId = requestId;
 
             return View(admitInfo);
         }
-        public ActionResult Greets()
+        public ActionResult Greets(string requestId)
         {
-            return View("Greets");
+            var payment = new Payment();
+            payment.RequestId = requestId;
+            return View("Greets", payment);
+        }
+
+        public ActionResult Details(string requestId)
+        {
+            var context = new ApplicationDbContext();
+            var requestDetailViewModel = new RequestDetailView();
+            requestDetailViewModel.Request = context.Requests.Single(up => up.RequestId == requestId);
+            requestDetailViewModel.Service = context.Service.SingleOrDefault(s => s.ServiceId == requestDetailViewModel.Request.ServiceId);
+            requestDetailViewModel.ServiceType = context.ServiceType.SingleOrDefault(s => s.ServiceTypeId == requestDetailViewModel.Service.ServiceTypeId);
+            requestDetailViewModel.Master = context.Users.SingleOrDefault(u => u.Id == requestDetailViewModel.Request.ManagerId);
+
+            return View("Request", requestDetailViewModel);
+        }
+
+        public ActionResult Payment(string requestId)
+        {
+            var context = new ApplicationDbContext();
+            var request = context.Requests.FirstOrDefault(u => u.RequestId == requestId);
+            var service = context.Service.FirstOrDefault(s => s.ServiceId == request.ServiceId);
+            Order order = new Order();
+            order.Id = requestId;
+            order.Date = DateTime.UtcNow;
+            order.Sum = service.MoneyForService;
+
+            if (order != null)
+            {
+                OrderModel orderModel = new OrderModel { OrderId = request.RequestId, Sum = service.MoneyForService };
+                return View(orderModel);
+            }
+            /*return HttpNotFound();*/
+            return View();
+
+        }
+
+        [HttpGet]
+        public string Paid()
+        {
+            return "<p>заказ оплачен</p>";
+        }
+        [HttpPost]
+        public void Paid(string notification_type, string operation_id, string label, string datetime,
+        decimal amount, decimal withdraw_amount, string sender, string sha1_hash, string currency, bool codepro)
+        {
+            string key = "xxxxxxxxxxxxxxxx"; // секретный код
+                                             // проверяем хэш
+            var context = new ApplicationDbContext();
+            string paramString = String.Format("{0}&{1}&{2}&{3}&{4}&{5}&{6}&{7}&{8}",
+                notification_type, operation_id, amount, currency, datetime, sender,
+                codepro.ToString().ToLower(), key, label);
+            string paramStringHash1 = GetHash(paramString);
+            // создаем класс для сравнения строк
+            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+            // если хэши идентичны, добавляем данные о заказе в бд
+            if (0 == comparer.Compare(paramStringHash1, sha1_hash))
+            {
+                Order order = context.Orders.FirstOrDefault(o => o.Id == label);
+                order.Operation_Id = operation_id;
+                order.Date = DateTime.Now;
+                order.Amount = amount;
+                order.WithdrawAmount = withdraw_amount;
+                order.Sender = sender;
+                context.Entry(order).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+        }
+        public string GetHash(string val)
+        {
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            byte[] data = sha.ComputeHash(Encoding.Default.GetBytes(val));
+
+            StringBuilder sBuilder = new StringBuilder();
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+            return sBuilder.ToString();
         }
     }
 

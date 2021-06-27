@@ -28,7 +28,7 @@
         @request.Status
     </td>
     <td>
-        @Html.ActionLink("Подробнее", "Details", "User", new { requestId = request.RequestId, userId = request.UserId }, null)
+        @Html.ActionLink("Подробнее", "Details", "Request", new { requestId = request.RequestId, userId = request.UserId }, null)
     </td>
     @if (request.Status == "Заявка выполнена" && request.UserMark == false)
     {

@@ -29,5 +29,5 @@
 </table>
 
 <div>
-    <a class="btn btn-default" href="@Url.Action("Greets", "Request")">Подтвердить</a>
+    <a class="btn btn-default" href="@Url.Action("Greets", "Request", new {requestId = Model.RequestId }, null)">Подтвердить</a>
 </div>

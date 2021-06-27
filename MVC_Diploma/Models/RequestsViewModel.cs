@@ -34,12 +34,25 @@ namespace MVC_Diploma.Models
 
     public class AdmitInfoViewModel
     {
+        public string RequestId { get; set; }
         public string MasterName { get; set; }
         public string Description { get; set; }
         public string ServiceDescription { get; set; }
         public string TypeOfService { get; set; }
         public string Price { get; set; }
 
+    }
+
+    public class RequestDetailView
+    {
+        public Requests Request { get; set; }
+        public Service Service { get; set; }
+        public ServiceType ServiceType { get; set; }
+        public ApplicationUser Master {get; set;}
+    }
+    public class Payment
+    {
+        public string RequestId { get; set; }
     }
 }
 

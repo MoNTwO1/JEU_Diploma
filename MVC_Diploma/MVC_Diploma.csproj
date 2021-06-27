@@ -252,12 +252,17 @@
     <Compile Include="Migrations\202106060936465_last.Designer.cs">
       <DependentUpon>202106060936465_last.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106271437450_YandexPaymentOrders.cs" />
+    <Compile Include="Migrations\202106271437450_YandexPaymentOrders.Designer.cs">
+      <DependentUpon>202106271437450_YandexPaymentOrders.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminResouresViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManagerViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\RequestsViewModel.cs" />
     <Compile Include="Models\UsersViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -342,6 +347,8 @@
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Manager\Admited.cshtml" />
     <Content Include="Views\Users\Mark.cshtml" />
+    <Content Include="Views\Request\Request.cshtml" />
+    <Content Include="Views\Request\Payment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -379,6 +386,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106060936465_last.resx">
       <DependentUpon>202106060936465_last.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106271437450_YandexPaymentOrders.resx">
+      <DependentUpon>202106271437450_YandexPaymentOrders.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
