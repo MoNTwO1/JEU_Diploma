@@ -61,19 +61,32 @@ namespace MVC_Diploma.Controllers
             .Contains("97ee5280-6dc6-4f71-a150-4cc3d546de03"))
                 .ToList();
             List<RequestsMastersInfoViewModel> sorted = new List<RequestsMastersInfoViewModel>();
-            foreach (var user in users)
+            try
             {
-                foreach (var rep in reputation)
+                foreach (var user in users)
                 {
-                    if (user.ReputationId.ToString() == rep.ReputationId)
+                    foreach (var rep in reputation)
                     {
-                        sorted.Add(new RequestsMastersInfoViewModel { masters = user, value = rep.Value, requestId = requestId, serviceId = serviceId });
+                        if (user.ReputationId != null)
+                        {
+                            if (user.ReputationId.ToString() == rep.ReputationId)
+                            {
+                                sorted.Add(new RequestsMastersInfoViewModel { masters = user, value = rep.Value, requestId = requestId, serviceId = serviceId });
+                            }
+                        }
+                        
                     }
+
+
                 }
-                
-                
             }
-            MastersInfoViewModel masters = new MastersInfoViewModel(sorted);
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+            MastersInfoViewModel masters = new MastersInfoViewModel(sorted.OrderBy(u => u.value).ToList());
             return View("PickMaster", sorted);
         }
 
@@ -181,6 +194,11 @@ namespace MVC_Diploma.Controllers
                 sBuilder.Append(data[i].ToString("x2"));
             }
             return sBuilder.ToString();
+        }
+
+        public ActionResult ConfirmedRequest()
+        {
+            return View("ConfirmedRequest");
         }
     }
 

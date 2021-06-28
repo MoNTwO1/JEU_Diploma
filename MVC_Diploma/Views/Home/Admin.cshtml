@@ -15,5 +15,17 @@
 
 <br />
 <a class="btn btn-default" href="@Url.Action("Export", "Admin")">Отчет по заявкам</a>
+<div>
+    @using (Html.BeginForm("Import", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-excel" }))
+    {
+        <div>
+            Загрузите Excel-файл:
+            <input type="file" name="fileExcel" id="fileExcel" />
+            <div>
+                <input type="submit" value="Загрузить" />
+            </div>
+        </div>
+    }
+</div>
 
 

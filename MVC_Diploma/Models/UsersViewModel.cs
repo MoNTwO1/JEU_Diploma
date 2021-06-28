@@ -20,6 +20,7 @@ namespace MVC_Diploma.Models
         public string Username  { get; set; }
         public string Email { get; set; }
         public IList<string> Roles { get; set; }
+        public string Query { get; set; }
     }
 
     public class UserEditModel

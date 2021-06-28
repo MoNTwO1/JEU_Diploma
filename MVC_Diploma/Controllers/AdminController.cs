@@ -37,6 +37,24 @@ namespace MVC_Diploma.Controllers
             return View(userInfos);
         }
 
+        public ActionResult Search(string query)
+        {
+            var context = new ApplicationDbContext();
+            var userStore = new UserStore<ApplicationUser>(context);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+            var users = userManager.Users.ToList();
+            var userWithRoles = userManager.Users.Include(u => u.Roles).ToList()
+                .Select(u => new UserInfo
+                {
+                    Email = u.Email,
+                    Roles = userManager.GetRoles(u.Id),
+                    UserId = u.Id.ToString(),
+                    Username = u.UserName
+                })
+                .ToList();
+            return View("Index", userWithRoles.Where(n => n.Email == query));
+        }
+
         [HttpGet]
         public ActionResult EditUserView(string userId, string userName)
         {
@@ -235,6 +253,54 @@ namespace MVC_Diploma.Controllers
                     };
                 }
             }
+
+        }
+
+        [HttpPost]
+        public ActionResult Import(HttpPostedFileBase fileExcel)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var errors = 0;
+                using (XLWorkbook workBook = new XLWorkbook(fileExcel.InputStream, XLEventTracking.Disabled))
+                {
+                    foreach (IXLWorksheet worksheet in workBook.Worksheets)
+                    {
+
+                        foreach (IXLColumn column in worksheet.ColumnsUsed().Skip(1))
+                        {
+
+                            foreach (IXLRow row in worksheet.RowsUsed().Skip(1))
+                            {
+                                try
+                                {
+                                    RegisterViewModel viewModel = new RegisterViewModel();
+                                    viewModel.Email = row.Cell(1).Value.ToString();
+                                    viewModel.UserName = row.Cell(2).Value.ToString();
+                                    viewModel.Password = row.Cell(3).Value.ToString();
+                                    viewModel.ConfirmPassword = row.Cell(3).Value.ToString();
+                                    RedirectToAction("ToRegister","Admin", new { model = viewModel });
+
+                                }
+                                catch (Exception e)
+                                {
+                                    //logging
+                                    errors++;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            return RedirectToAction("AdminPage", "Home" );
+        }
+
+        [HttpPost]
+        public ActionResult ToRegister(RegisterViewModel model)
+        {
+            return RedirectToAction("Register", "Account", new { model = model });
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MVC_Diploma.Models.UserInfo>
 @{
     ViewBag.Title = "Список всех пользователей";
-    
+    var query = "";
 }
 <head>
     <meta charset="UTF-8">
@@ -9,25 +9,34 @@
 
     <link rel="stylesheet" href="~/Content/StyleForTables.css">
 
-</head>
 
-<table>
-    <tr><th><h2>Employee</h2></th><th><h2>User role</h2></th></tr>
-    @foreach (var user in Model)
-    {
-        var roles = "";
-        foreach (var item in user.Roles)
+</head>
+<br />
+@*<p>
+    <div class="form-group">
+        <input type="text" name="query" id="query" value="" />
+        <div class="col-md-10">
+            <a class="btn btn-default" href="@Url.Action("Search", "Admin", new {query = v }, null)">Поиск</a>
+        </div>
+    </div>
+</p>*@
+    <table>
+        <tr><th><h2>Employee</h2></th><th><h2>User role</h2></th></tr>
+        @foreach (var user in Model)
         {
-            roles += item + " ";
+            var roles = "";
+            foreach (var item in user.Roles)
+            {
+                roles += item + " ";
+            }
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    @roles
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "EditUserView", "Admin", new { userId = user.UserId, userName = user.Username }, null)
+                </td>
+            </tr>
         }
-<tr>
-    <td>@user.Email</td>
-    <td>
-        @roles
-    </td>
-    <td>
-        @Html.ActionLink("Редактировать", "EditUserView", "Admin", new { userId = user.UserId, userName = user.Username}, null)
-    </td>
-</tr>
-    }
-</table>
+    </table>

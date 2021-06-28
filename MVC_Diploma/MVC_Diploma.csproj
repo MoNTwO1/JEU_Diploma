@@ -371,6 +371,7 @@
     <Content Include="Views\Users\Mark.cshtml" />
     <Content Include="Views\Request\Request.cshtml" />
     <Content Include="Views\Request\Payment.cshtml" />
+    <Content Include="Views\Request\ConfirmedRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

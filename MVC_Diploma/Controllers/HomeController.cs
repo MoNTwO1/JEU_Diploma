@@ -69,13 +69,14 @@ namespace MVC_Diploma.Controllers
         [Authorize(Roles = "Admin, User, Master, Manager")]
         public ActionResult UserPage()
         {
-            ViewBag.Message = "User page";
+            ViewBag.Message = "Страница пользователя";
             var context = new ApplicationDbContext();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             var allrequests = context.Requests.ToList();
             var id = User.Identity.GetUserId().ToString();
             var userRequests = allrequests.Where(r => r.UserId.ToString() == id);
+            userRequests.OrderBy(u => u.Date);
 
             return View("User", userRequests);
         }
