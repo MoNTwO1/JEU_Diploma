@@ -38,6 +38,7 @@ namespace MVC_Diploma.Controllers
             //выбор заявки и занесение услуги в бд
             var userId = User.Identity.GetUserId();
             var requestId = Guid.NewGuid().ToString();
+            var date = DateTime.UtcNow;
             var service = context.Service.Single(up => up.ServiceId == serviceId);
 
             Requests Request = new Requests()
@@ -45,7 +46,8 @@ namespace MVC_Diploma.Controllers
                 RequestId = requestId,
                 UserId = userId,
                 ServiceId = serviceId,
-                Description = service.Description
+                Description = service.Description,
+                Date = date
             };
             //Регистрация в бд
             context.Requests.Add(Request);

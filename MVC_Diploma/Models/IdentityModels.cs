@@ -57,6 +57,7 @@ namespace MVC_Diploma.Models
         public string MasterAdmit { get; set; }
         public string ManagerAdmit { get; set; }
         public bool UserMark { get; set; }
+        public DateTime Date { get; set; }
 
     }
 

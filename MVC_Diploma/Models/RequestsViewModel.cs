@@ -54,6 +54,15 @@ namespace MVC_Diploma.Models
     {
         public string RequestId { get; set; }
     }
+
+    public class ExportInfo
+    {
+        public string RequestId { get; set; }
+        public string Master { get; set; }
+        public string TypeOfRequest { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+    }
 }
 
     

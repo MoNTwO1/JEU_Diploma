@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MVC_Diploma.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -145,6 +149,92 @@ namespace MVC_Diploma.Controllers
             context.SaveChanges();
             ViewBag.Message = "Пользователь добавлен";
             return View("AddUser");
+        }
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var context = new ApplicationDbContext();
+            ApplicationUser user = context.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var context = new ApplicationDbContext();
+            ApplicationUser user = context.Users.Find(id);
+            context.Users.Remove(user);
+            context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Export()
+        {
+            
+            using (XLWorkbook workbook = new XLWorkbook(XLEventTracking.Disabled))
+            {
+                var worksheet = workbook.Worksheets.Add("Worker statistic");
+
+                worksheet.Cell("A1").Value = "Номер заявки";
+                worksheet.Cell("B1").Value = "Мастер";
+                worksheet.Cell("C1").Value = "Тип заявки";
+                worksheet.Cell("D1").Value = "Описание";
+                worksheet.Cell("E1").Value = "Стоимость заявки";
+                worksheet.Row(1).Style.Font.Bold = true;
+
+                var context = new ApplicationDbContext();
+                var requests = context.Requests.Where(u => u.Status == "Заявка выполнена").ToList();
+                List<ExportInfo> exportInfos = new List<ExportInfo>();
+                foreach (var request in requests)
+                {
+                    var requestId = request.RequestId;
+                    var master = context.Users.FirstOrDefault(u => u.Id == request.ManagerId).UserName;
+                    var service = context.Service.FirstOrDefault(u => u.ServiceId == request.ServiceId);
+                    var serviceType = context.ServiceType.FirstOrDefault(u => u.ServiceTypeId == service.ServiceTypeId).Type;
+                    var desc = request.Description;
+                    var price = service.MoneyForService;
+                    exportInfos.Add(new ExportInfo
+                    {
+                        RequestId = requestId,
+                        Master = master,
+                        TypeOfRequest = serviceType,
+                        Description = desc,
+                        Price = price,
+                    });
+         
+                }
+
+                //нумерация строк/столбцов начинается с индекса 1 (не 0)
+                for (int i = 0; i < exportInfos.Count; i++)
+                {
+                    worksheet.Cell(i + 2, 1).Value = exportInfos[i].RequestId;
+                    worksheet.Cell(i + 2, 2).Value = string.Join(", ", exportInfos[i].Master);
+                    worksheet.Cell(i + 2, 3).Value = exportInfos[i].TypeOfRequest;
+                    worksheet.Cell(i + 2, 4).Value = exportInfos[i].Description;
+                    worksheet.Cell(i + 2, 5).Value = exportInfos[i].Price;
+
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Flush();
+
+                    return new FileContentResult(stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    {
+                        FileDownloadName = $"requests_Report_{DateTime.UtcNow.ToShortDateString()}.xlsx"
+                    };
+                }
+            }
         }
     }
 }
